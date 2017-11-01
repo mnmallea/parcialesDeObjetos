@@ -1,0 +1,36 @@
+import Camino.*
+import Grupo.*
+import Region.*
+import Requerimiento.*
+import tierraMedia.*
+import Viajero.*
+import Zona.*
+
+describe "un grupo de tests"{
+	var rohan = new Region("Rohan")
+	var gondor = new Region("Gondor")
+	var mordor = new Region("Mordor")
+	
+	var req1 = new RequerimientoDeIntegrante("maiar",9,2)
+	var req2 = new RequerimientoDeElemento("pizza",2)
+	
+	var belfalas = new Zona(gondor,#{},#{req1})
+	var pizzaPlaneta = new Zona(mordor,#{belfalas},#{req2})
+	var marAzul = new Zona(rohan,#{},#{})
+	var zonaRoja = new Zona(gondor,#{belfalas},#{req1,req2})
+	
+	var camino1 = new Camino([belfalas,zonaRoja,pizzaPlaneta])
+	
+	test "Mordor y gondor son limitrofes"{
+		assert.that(mordor.limitaCon(gondor))
+	}
+	test "mordor y rohan no son limitrofes"{
+		assert.notThat(rohan.limitaCon(mordor))
+	}
+	test "gondor ahora si limita con mordor"{
+		assert.that(gondor.limitaCon(mordor))
+	}
+	test "camino1 atraviesa 2 regiones"{
+		assert.equals(2,camino1.cuantasAtraviesa())
+	}
+}
